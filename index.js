@@ -36,23 +36,27 @@ function pushVariablesToState(result){
     STATE.videos.push({thumbnailURL: eachLine.snippet.thumbnails.medium.url});
   });
   (console.log(STATE.videos));
-  return;
+  renderSearchResult(STATE.videos)
 }
 
 function renderSearchResult(result) {
   //call back function for displayThumbnailData
   //returning individual item to html element
-  return `
+  let arrayOfElements = [];
+  for(let key of STATE.videos){
+    console.log(key.thumbnailURL)
+  arrayOfElements.push(`
   <div>
-    <input type="image" class="js-thumbnail" src = ${STATE.videos} target="_blank"$!VAR!><a class="js-thumbnail-url" href="${STATE.videos}" target="_blank">
+    <input type="image" class="js-thumbnail" src="${key.thumbnailURL}" target="_blank"$!VAR!><a class="js-thumbnail-url" href="${STATE.videos}" target="_blank">
   </div>
-  `;
+  `);
+}
+let joinArray = arrayOfElements.join('');
+displayThumbnailData(joinArray);
 }
 
-function displayThumbnailData(returnedDataFromJSON){
-  //creates a new array of all the items from JSON
-  //push variables to STATE object (using Map)
-  //and renders them to the dom (not the Map anymore)
+function displayThumbnailData(joinArray){
+  $('.js-search-results').html(joinArray)
 }
 
 function handleSubmitButton() {
