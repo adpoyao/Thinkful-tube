@@ -12,26 +12,31 @@ const youtubeKey = 'AIzaSyCLTW5L2hLYTbWfueyDRzzwt9vQead4PP0';
 const youtubeEndpoint = 'https://www.googleapis.com/youtube/v3/search';
 
 const initialState = {
-  video: [
-    // {thumbnail: 'url', title: 'title', link: 'link' }
-  ]
+  videos: []
 };
 
 let STATE = Object.assign({}, initialState);
 
-const params = {
-  part: 'snippet',
-  key: youtubeKey,
-  q: 'cats'
-};
-$.getJSON(youtubeEndpoint, params, function(response) {
-  console.log(response);
-});
-
 function getDataFromApi(searchValue, callback) {
   //pass searchValue to the query
+  const params = {
+    part: 'snippet',
+    key: youtubeKey,
+    q: searchValue
+  };
   //use getJSON method on the youtubeEndpoint
   //pass in query and the callback function to getJSON //method
+  $.getJSON(youtubeEndpoint, params, pushVariablesToState);
+}
+
+function pushVariablesToState(result){
+  //Traverse through results and obtain thumbnail URLs
+  //Push each thumbnail URL to STATE
+  let arrayOfThumbnailsURL = result.items.map(function(eachLine){
+    STATE.videos.push({thumbnailURL: eachLine.snippet.thumbnails.medium.url});
+  });
+  (console.log(STATE.videos));
+  return;
 }
 
 function renderSearchResult(result) {
@@ -39,20 +44,31 @@ function renderSearchResult(result) {
   //returning individual item to html element
   return `
   <div>
-    <input type="image" class="js-thumbnail" src = ${result.something} target="_blank"$!VAR!><a class="js-thumbnail-url" href="${result.something}" target="_blank">
+    <input type="image" class="js-thumbnail" src = ${STATE.videos} target="_blank"$!VAR!><a class="js-thumbnail-url" href="${STATE.videos}" target="_blank">
   </div>
   `;
 }
 
 function displayThumbnailData(returnedDataFromJSON){
   //creates a new array of all the items from JSON
-  //and renders them to the dom
+  //push variables to STATE object (using Map)
+  //and renders them to the dom (not the Map anymore)
 }
 
 function handleSubmitButton() {
   //listen to user submit on form
-  //prevent the default action
-  //store the value of input
-  //clear the value of the search bar after search
-  //pass the search value to the json function(getDataFromApi)
+  $('.js-search-form').submit(event => {
+    //prevent the default action
+    event.preventDefault();
+    STATE = Object.assign({}, initialState);
+    //store the value of input
+    const searchTarget = $(event.currentTarget).find('.js-query');
+    const youtubeSearchTerm = searchTarget.val();
+    //clear the value of the search bar after search
+    searchTarget.val('');
+    //pass the search value to the json function(getDataFromApi)
+    getDataFromApi(youtubeSearchTerm, displayThumbnailData);
+  });
 }
+
+$(handleSubmitButton);
