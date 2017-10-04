@@ -26,7 +26,7 @@ function getDataFromApi(searchValue, callback) {
   };
   //use getJSON method on the youtubeEndpoint
   //pass in query and the callback function to getJSON //method
-  $.getJSON(youtubeEndpoint, params, pushVariablesToState);
+  $.getJSON(youtubeEndpoint, params, callback);
 }
 
 function pushVariablesToState(result){
@@ -84,7 +84,7 @@ function handleSubmitButton() {
     //clear the value of the search bar after search
     searchTarget.val('');
     //pass the search value to the json function(getDataFromApi)
-    getDataFromApi(youtubeSearchTerm, displayThumbnailData);
+    getDataFromApi(youtubeSearchTerm, pushVariablesToState);
   });
 }
 
