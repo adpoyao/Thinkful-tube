@@ -11,7 +11,7 @@
 const youtubeKey = 'AIzaSyCLTW5L2hLYTbWfueyDRzzwt9vQead4PP0';
 const youtubeEndpoint = 'https://www.googleapis.com/youtube/v3/search';
 
-const initialState = {
+let initialState = {
   videos: []
 };
 
@@ -32,11 +32,11 @@ function getDataFromApi(searchValue, callback) {
 function pushVariablesToState(result){
   //Traverse through results and obtain thumbnail URLs
   //Push each thumbnail URL to STATE
-  let arrayOfThumbnailsURL = result.items.map(function(eachLine){
+  let arrayOfThumbnailsURL = result.items.map((eachLine) => {
     STATE.videos.push({thumbnailURL: eachLine.snippet.thumbnails.medium.url});
   });
   (console.log(STATE.videos));
-  renderSearchResult(STATE.videos)
+  renderSearchResult(STATE.videos);
 }
 
 function renderSearchResult(result) {
@@ -44,19 +44,19 @@ function renderSearchResult(result) {
   //returning individual item to html element
   let arrayOfElements = [];
   for(let key of STATE.videos){
-    console.log(key.thumbnailURL)
-  arrayOfElements.push(`
+    console.log(key.thumbnailURL);
+    arrayOfElements.push(`
   <div>
     <input type="image" class="js-thumbnail" src="${key.thumbnailURL}" target="_blank"$!VAR!><a class="js-thumbnail-url" href="${STATE.videos}" target="_blank">
   </div>
   `);
-}
-let joinArray = arrayOfElements.join('');
-displayThumbnailData(joinArray);
+  }
+  let joinArray = arrayOfElements.join('');
+  displayThumbnailData(joinArray);
 }
 
 function displayThumbnailData(joinArray){
-  $('.js-search-results').html(joinArray)
+  $('.js-search-results').html(joinArray);
 }
 
 function handleSubmitButton() {
@@ -64,6 +64,10 @@ function handleSubmitButton() {
   $('.js-search-form').submit(event => {
     //prevent the default action
     event.preventDefault();
+    initialState = {
+      videos: []
+    };
+    console.log(initialState);
     STATE = Object.assign({}, initialState);
     //store the value of input
     const searchTarget = $(event.currentTarget).find('.js-query');
