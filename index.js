@@ -33,10 +33,12 @@ function pushVariablesToState(result){
   //Traverse through results and obtain thumbnail URLs
   //Push each thumbnail URL to STATE
   console.log(result);
-  let arrayOfThumbnailsURL = result.items.map((eachLine) => {
-    STATE.videos.push({thumbnailURL: eachLine.snippet.thumbnails.medium.url, 
-      videoID: eachLine.id.videoId,
-      channelID: eachLine.snippet.channelId
+   result.items.map((video) => {
+    const { snippet } = video;
+    const { url }  = snippet.thumbnails.medium
+    STATE.videos.push({thumbnailURL: url, 
+      videoID: video.id.videoId,
+      channelID: snippet.channelId
     });
     console.log(STATE.videos);
   });
