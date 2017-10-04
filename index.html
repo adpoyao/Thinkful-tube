@@ -6,12 +6,24 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Thinkful Tube</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <link rel="stylesheet" href="index.css">
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
   
 </head>
 <body>
-  
+  <h1>Thinkful Tube</h1>
+  <form action="#" class="js-search-form">
+    <label for="query"></label>
+    <input type="text" class="js-query">
+    <button class ="btn btn-success" type="submit">Search</button>
+  </form>
+  <div class="js-search-results">
+    <div>
+      <h2>Thumbnail Image:</h2>
+      <input type="image" class="js-result-name" src = ${VAR} target="_blank"$!VAR!><a class="js-user-name" href="${result.owner.html_url}" target="_blank">
+    </div>
+  </div>
 </body>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="index.js"></script>
