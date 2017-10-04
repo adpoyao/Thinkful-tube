@@ -32,10 +32,14 @@ function getDataFromApi(searchValue, callback) {
 function pushVariablesToState(result){
   //Traverse through results and obtain thumbnail URLs
   //Push each thumbnail URL to STATE
+  console.log(result);
   let arrayOfThumbnailsURL = result.items.map((eachLine) => {
-    STATE.videos.push({thumbnailURL: eachLine.snippet.thumbnails.medium.url});
+    STATE.videos.push({thumbnailURL: eachLine.snippet.thumbnails.medium.url, 
+      videoID: eachLine.id.videoId,
+      channelID: eachLine.snippet.channelId
+    });
+    console.log(STATE.videos);
   });
-  (console.log(STATE.videos));
   renderSearchResult(STATE.videos);
 }
 
@@ -47,13 +51,18 @@ function renderSearchResult(result) {
     console.log(key.thumbnailURL);
     arrayOfElements.push(`
   <div>
-    <input type="image" class="js-thumbnail" src="${key.thumbnailURL}" target="_blank"$!VAR!><a class="js-thumbnail-url" href="${STATE.videos}" target="_blank">
+    <a href="https://www.youtube.com/watch?v=${key.videoID}" target="_blank"><input type="image" class="js-thumbnail" src="${key.thumbnailURL}"></a>
+  </div>
+  <div>    
+    <a href="https://www.youtube.com/channel/${key.channelID}" target="_blank">More videos from this channel</a>
   </div>
   `);
   }
   let joinArray = arrayOfElements.join('');
   displayThumbnailData(joinArray);
 }
+
+//channel
 
 function displayThumbnailData(joinArray){
   $('.js-search-results').html(joinArray);
